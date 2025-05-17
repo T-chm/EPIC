@@ -1,18 +1,18 @@
 # EPIC: Engineering Probes via Instructing a Chatbot
 
-EPIC is a specialized AI assistant designed specifically for quantum dot barcode (QDB) assay development. This platform helps researchers design, optimize, and troubleshoot QDB assays for nucleic acid detection.
-
-![EPIC Chatbot](assets/epic_logo.png)
-
+EPIC is an LLM based chatbot designed specifically for nucleic acid diagnostic assay development. Currently, this platform supports the design, optimization, and troubleshooting of the quantum dot barcode (QDB) and PCR assays.
 
 ## Features
 
 - **QDB Probe Design**: Design and optimize capture and reporter probes for QDB assays
-- **QDB Assay Development**: Expert guidance on QDB assay development following established design principles
+- **PCR Primer Design**: Design optimized primers for PCR assays using Primer3
 - **Multiple Sequence Alignment**: Built-in MAFFT integration for sequence alignment and target region identification
-- **Thermodynamic Analysis**: Calculates optimal GC content, melting temperature, and other parameters for QDB probes
+- **Thermodynamic Analysis**: Calculates optimal GC content, melting temperature, and other parameters
+- **Expert Guidance**: Assay development advice following established design principles for both QDB and PCR
 
-## QDB Assay Design Process
+## Assay Design Processes
+
+### QDB Assay Design
 
 EPIC follows a systematic approach to QDB assay design:
 
@@ -21,6 +21,16 @@ EPIC follows a systematic approach to QDB assay design:
 3. Generating reverse complements for capture and reporter probes
 4. Optimizing GC content (40-60%) and melting temperature (55-72°C)
 5. Adding appropriate chemical modifications (/5AmMC6/ and /3Cy5Sp/)
+
+### PCR Primer Design
+
+For PCR primer design, EPIC follows these guidelines:
+
+1. Target sequence analysis and amplicon region selection
+2. Designing primers with optimal length (18-30 nucleotides)
+3. Optimizing melting temperature (50-65°C) with less than 5°C difference between primers
+4. Ensuring appropriate GC content (40-60%) with a G or C at the 3' end
+5. Avoiding secondary structures, primer-dimers, and runs of 4+ identical nucleotides
 
 ## Requirements
 
@@ -64,10 +74,17 @@ This will start a Gradio web interface accessible at http://localhost:7860.
 
 The repository includes sample queries in the `data/sample_user_prompts.txt` file. Here are some examples:
 
+#### QDB Assay Queries
 - "Design QDB probes for detecting this sequence: [paste your sequence]"
 - "Analyze these variant sequences for conserved regions"
 - "How do I optimize my QDB assay for higher sensitivity?"
 - "Design a QDB assay for detecting HIV variants"
+
+#### PCR Assay Queries
+- "Design PCR primers for amplifying this region: [paste your sequence]"
+- "Create primers for a 200bp amplicon from this sequence"
+- "What are the best primer design parameters for a multiplex PCR?"
+- "Optimize these primers for my SARS-CoV-2 detection assay"
 
 ### Data Folder
 
@@ -84,13 +101,14 @@ You can execute Python code in two ways:
 
 ## How It Works
 
-EPIC leverages the OpenAI GPT-4o model with specialized training in biochemistry and QDB assay design. The system includes:
+EPIC leverages the OpenAI GPT-4o model with specialized training in molecular biology and nucleic acid diagnostics. The system includes:
 
-1. A specialized prompt engineering for QDB assay design
+1. Specialized prompt engineering for both QDB and PCR assay design
 2. Integration with BioPython for sequence analysis and thermodynamic calculations
-3. MAFFT integration for multiple sequence alignment
-4. Interactive code execution for real-time testing
-5. Built-in primer design using primer3-py
+3. MAFFT integration for multiple sequence alignment of variant sequences
+4. Interactive code execution for real-time testing and visualization
+5. Built-in primer design using primer3-py for optimized PCR primer generation
+6. Step-by-step assay optimization guidance based on best practices
 
 ## License
 
@@ -102,3 +120,4 @@ This project is licensed under the Educational Community License Version 2.0 (EC
 - [OpenAI](https://openai.com/) for the GPT-4o model
 - [BioPython](https://biopython.org/) for biological sequence analysis
 - [MAFFT](https://mafft.cbrc.jp/alignment/software/) for multiple sequence alignment
+- [Primer3-py](https://libnano.github.io/primer3-py/) for PCR primer design
