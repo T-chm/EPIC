@@ -1,0 +1,36 @@
+User prompt examples 
+
+
+QDB assay design with minimal prompting:
+Can you design a nucleic acid quantum dot barcode assay probes for this sequence: 5’-CTGCAGATTTGGATGATTTCTCCAAACAATTGCAACAATCCATGAGCAGTGCTGACTCAACTCAGGCCTAAACTCATGCAGACCACACAAGG-3’?
+
+Expected output:
+Sequence Length: 92
+First Half: CTGCAGATTTGGATGATTTCTCCAAACAATTGCAACAATCCATGAG
+Second Half: CAGTGCTGACTCAACTCAGGCCTAAACTCATGCAGACCACACAAGG
+First Half Reverse Complement: CTCATGGATTGTTGCAATTGTTTGGAGAAATCATCCAAATCTGCAG
+Second Half Reverse Complement: CCTTGTGTGGTCTGCATGAGTTTAGGCCTGAGTTGAGTCAGCACTG
+Capture Probe GC Content: 39.13%
+Capture Probe Melting Temperature: 64.92°C
+Reporter Probe GC Content: 52.17%
+Reporter Probe Melting Temperature: 69.72°C
+Modified Capture Probe: /5AmMC6/CTCATGGATTGTTGCAATTGTTTGGAGAAATCATCCAAATCTGCAG
+Modified Reporter Probe: CCTTGTGTGGTCTGCATGAGTTTAGGCCTGAGTTGAGTCAGCACTG/3Cy5Sp/
+Capture probe does not meet the criteria. Consider adjusting the sequence.
+Reporter probe meets the criteria.
+
+
+Multi-sequence alignment and QDB assay design:
+I'm working on designing Quantum Dot Barcode (QDB) assays for detecting coronavirus variants. I have three variant sequences and I'd like to:
+1. Align these sequences using MAFFT to identify conserved regions
+2. Design QDB assays based on conserved regions of 100 nucleotides, use a sliding window approach
+3. Evaluate the quality of the designed assays
+Here are my variant sequences:
+Variant_A: 
+AAACTGCAGATTTGGATGATTTCTCCAAACAATTGCAACAATCCATGAGCAGTGCTGACTCAACTCAGGCCTAAACTCATGCAGACCACACAAGGAAATTTAAAGC
+Variant_B: 
+TTCTGCAGATTTGGATGATTTCTCCAAACAATTGCAACAATCCATGAGCAGTGCTGACTCAACTCAGGCCTAAACTCATGCAGACCACACAAGGAAATTTAAAGC
+Variant_C: 
+TTAAGCTGCAGATTTGGATGATTTCTCCAAACAATTGCAACAATCCATGAGCAGTGCTGACTCAACTCAGGCCTAAACTCATGCAGACCACACAAGGAAATTTAAAGC
+
+

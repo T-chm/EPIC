@@ -1,0 +1,57 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files created by MAFFT
+*.fasta
+*.aln
+
+# Large data files
+data/exerpt of QDB assay design/qdb_assays_output_all_genomes.txt
+data/exerpt of QDB assay design/qdb_design_raw_data.csv
+data/exerpt of QDB assay design/qdb_design_statistics.txt
+data/exerpt of QDB assay design/qdb_design_statistics_all_stats.csv
+
+# Keep data structure but ignore OS artifacts
+data/**/.DS_Store
