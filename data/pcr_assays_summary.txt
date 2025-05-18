@@ -1,0 +1,42 @@
+PCR Assay Design Statistics Summary
+=================================
+
+Total number of assay designs analyzed: 7636599
+Total valid designs: 6078113 (79.59%)
+
+Amplicon Statistics:
+  Average length: 85.84 bp
+  Standard deviation: 5.72 bp
+  Minimum length: 80 bp
+  Maximum length: 100 bp
+
+Forward Primer Statistics:
+  Average length: 20.96 bp
+  Length standard deviation: 1.49 bp
+  Average GC content: 50.47%
+  GC content standard deviation: 5.32%
+  Maximum GC content: 60.00%
+  Minimum GC content: 40.00%
+  Average melting temperature: 59.28°C
+  Melting temperature standard deviation: 1.23°C
+  Maximum melting temperature: 65.00°C
+  Minimum melting temperature: 55.00°C
+  Average calculated Tm (Nearest-Neighbor): 57.16°C
+  Average difference between provided and calculated Tm: 2.12°C
+
+Reverse Primer Statistics:
+  Average length: 20.99 bp
+  Length standard deviation: 1.48 bp
+  Average GC content: 50.36%
+  GC content standard deviation: 5.27%
+  Maximum GC content: 60.00%
+  Minimum GC content: 40.00%
+  Average melting temperature: 59.26°C
+  Melting temperature standard deviation: 1.21°C
+  Maximum melting temperature: 65.00°C
+  Minimum melting temperature: 55.00°C
+  Average calculated Tm (Nearest-Neighbor): 57.14°C
+  Average difference between provided and calculated Tm: 2.12°C
+
+Tm Accuracy:
+  Primer pairs with accurate Tm values: 0 (0.00%)
