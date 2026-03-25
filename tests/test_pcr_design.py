@@ -212,7 +212,8 @@ class TestSystemPromptPCR:
         from epic.prompts import SYSTEM_PROMPT
         assert "PRIMER_OPT_SIZE" in SYSTEM_PROMPT
         assert "PRIMER_PRODUCT_SIZE_RANGE" in SYSTEM_PROMPT
-        assert "PRIMER_LEFT_0_SEQUENCE" in SYSTEM_PROMPT
+        assert "PRIMER_LEFT_" in SYSTEM_PROMPT
+        assert "PRIMER_PAIR_NUM_RETURNED" in SYSTEM_PROMPT
 
     def test_prompt_has_primer_criteria(self):
         from epic.prompts import SYSTEM_PROMPT

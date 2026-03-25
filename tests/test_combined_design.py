@@ -142,12 +142,21 @@ class TestCombinedDirectDispatch:
         code = try_direct_dispatch(USER_PROMPT)
         assert TARGET_SEQUENCE in code
 
-    def test_dispatch_alternate_phrasings(self):
+    @pytest.mark.parametrize("prompt", [
+        f"Design PCR primers and the QDB assay for the following template sequence: {TARGET_SEQUENCE}",
+        f"Design PCR primers then QDB assay for {TARGET_SEQUENCE}",
+        f"design primers then qdb for {TARGET_SEQUENCE}",
+        f"Design PCR primers, then the QDB assay for the sequence: {TARGET_SEQUENCE}",
+        f"Make PCR primers and QDB probes for the template sequence: {TARGET_SEQUENCE}",
+        f"Create primers and quantum dot barcode assay for {TARGET_SEQUENCE}",
+    ])
+    def test_dispatch_alternate_phrasings(self, prompt):
         from epic.tools.direct_dispatch import try_direct_dispatch
 
-        # "and" instead of "then"
-        alt1 = f"Design PCR primers and the QDB assay for the following template sequence: {TARGET_SEQUENCE}"
-        assert try_direct_dispatch(alt1) is not None
+        code = try_direct_dispatch(prompt)
+        assert code is not None, f"Should match: {prompt[:60]}..."
+        assert "primer3.design_primers" in code
+        assert "/5AmMC6/" in code
 
     def test_dispatch_does_not_match_partial(self):
         from epic.tools.direct_dispatch import try_direct_dispatch

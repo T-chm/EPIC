@@ -62,13 +62,15 @@ PCR PRIMER DESIGN PROTOCOL (the code should follow these steps):
          }
      )
 
-  3. Extract and print primer pairs from the result dict:
-     - result['PRIMER_LEFT_0_SEQUENCE'], result['PRIMER_RIGHT_0_SEQUENCE']
-     - result['PRIMER_LEFT_0_TM'], result['PRIMER_RIGHT_0_TM']
-     - result['PRIMER_LEFT_0_GC_PERCENT'], result['PRIMER_RIGHT_0_GC_PERCENT']
-     - result['PRIMER_PAIR_0_PRODUCT_SIZE']
-  4. Print a summary table with all primer pairs found.
-  5. Validate: Tm 50-65°C, GC 40-60%, Tm difference < 5°C, 3' ending in C or G.
+  3. Get the number of pairs: num_pairs = result['PRIMER_PAIR_NUM_RETURNED']
+     CRITICAL: Loop with range(num_pairs), NEVER range(len(result)) — len(result) is the total dict keys, not pair count.
+  4. Extract primer pairs using index i:
+     - result[f'PRIMER_LEFT_{i}_SEQUENCE'], result[f'PRIMER_RIGHT_{i}_SEQUENCE']
+     - result[f'PRIMER_LEFT_{i}_TM'], result[f'PRIMER_RIGHT_{i}_TM']
+     - result[f'PRIMER_LEFT_{i}_GC_PERCENT'], result[f'PRIMER_RIGHT_{i}_GC_PERCENT']
+     - result[f'PRIMER_PAIR_{i}_PRODUCT_SIZE']
+  5. Print a summary table with all primer pairs found.
+  6. Validate: Tm 50-65°C, GC 40-60%, Tm difference < 5°C, 3' ending in C or G.
 
 MAFFT: run_mafft(sequences_dict, output_format="clustal") is available. Do not import it.
 

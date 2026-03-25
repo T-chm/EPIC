@@ -172,9 +172,11 @@ else:
 
 
 # Match combined "design PCR primers then/and QDB for [sequence]"
+# Permissive: catches "primers and/then QDB", "PCR and QDB", "primers, then probes", etc.
 _COMBINED_PATTERN = re.compile(
-    r"(?:design|create|make)\s+(?:pcr\s+)?primers?\s+"
-    r"(?:then|and|,)\s+(?:the\s+)?(?:(?:nucleic\s+acid\s+)?(?:quantum\s+dot\s+barcode|qdb)\s+(?:assay\s+)?)"
+    r"(?:design|create|make)\s+(?:(?:pcr\s+)?primers?|pcr)"
+    r"[\s,]+(?:then|and)\s+"
+    r"(?:the\s+)?(?:(?:nucleic\s+acid\s+)?(?:quantum\s+dot\s+barcode|qdb)\s*(?:assay\s*)?(?:probes?\s*)?)"
     r"(?:for\s+)?(?:(?:this|the|following|template|target|sequence)\s+)*(?:sequence)?[:\s]*"
     r"(?:5['\u2019]-?)?\s*([ATGCUNRYWSMKHBVD\s\-]{20,})\s*(?:-?3['\u2019])?",
     re.IGNORECASE,
