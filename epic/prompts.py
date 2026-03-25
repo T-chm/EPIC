@@ -78,4 +78,8 @@ SCRIPT GUIDELINES:
   - No main() function or if __name__ == "__main__" block.
   - Use gc_fraction() * 100 for percentage GC content.
   - Use Seq() for all sequence operations.
+  - In f-strings, do NOT use single quotes inside curly braces. Use simple variable names:
+    WRONG: f"{'5' End':<20}"
+    RIGHT: label = "5' End"; f"{label:<20}"
+  - Keep print formatting simple. Use plain print() with string concatenation if f-strings get complex.
 """

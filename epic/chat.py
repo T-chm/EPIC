@@ -20,10 +20,11 @@ _CODE_BLOCK_RE = re.compile(r"```python\n(.*?)\n```", re.DOTALL)
 
 _INTERPRETATION_INSTRUCTION = (
     "Above is the actual code execution output. Give a brief interpretation (3-5 sentences max):\n"
-    "- State whether the design passes or fails each criterion\n"
+    "- If the code FAILED with an error, say so in one sentence and state what went wrong. Do NOT speculate about what the results 'would have been.'\n"
+    "- If the code SUCCEEDED, state whether the design passes or fails each criterion\n"
     "- Flag specific values that are outside range\n"
     "- If there are issues, suggest ONE concrete next step\n"
-    "Do NOT repeat the data in tables. Do NOT generate new code. Be concise."
+    "Do NOT repeat the data in tables. Do NOT generate new code. Do NOT hypothesize. Be concise."
 )
 
 # Sentinel to signal end of stream
