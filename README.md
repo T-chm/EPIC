@@ -1,123 +1,181 @@
 # EPIC: Engineering Probes via Instructing a Chatbot
 
-EPIC is an LLM based chatbot designed specifically for nucleic acid diagnostic assay development. Currently, this platform supports the design, optimization, and troubleshooting of the quantum dot barcode (QDB) and PCR assays.
+EPIC is an AI-powered chatbot for nucleic acid diagnostic assay development. It supports the design, optimization, and troubleshooting of quantum dot barcode (QDB) and PCR assays using multiple LLM providers.
 
 ## Features
 
+- **Multi-Provider LLM Support**: OpenAI, Anthropic Claude, and Ollama (local models) — each using native SDKs
 - **QDB Probe Design**: Design and optimize capture and reporter probes for QDB assays
-- **PCR Primer Design**: Design optimized primers for PCR assays using Primer3
-- **Multiple Sequence Alignment**: Built-in MAFFT integration for sequence alignment and target region identification
-- **Thermodynamic Analysis**: Calculates optimal GC content, melting temperature, and other parameters
-- **Expert Guidance**: Assay development advice following established design principles for both QDB and PCR
-
-## Assay Design Processes
-
-### QDB Assay Design
-
-EPIC follows a systematic approach to QDB assay design:
-
-1. Target sequence analysis and verification
-2. Splitting the target sequence into equal-length halves 
-3. Generating reverse complements for capture and reporter probes
-4. Optimizing GC content (40-60%) and melting temperature (55-72°C)
-5. Adding appropriate chemical modifications (/5AmMC6/ and /3Cy5Sp/)
-
-### PCR Primer Design
-
-For PCR primer design, EPIC follows these guidelines:
-
-1. Target sequence analysis and amplicon region selection
-2. Designing primers with optimal length (18-30 nucleotides)
-3. Optimizing melting temperature (50-65°C) with less than 5°C difference between primers
-4. Ensuring appropriate GC content (40-60%) with a G or C at the 3' end
-5. Avoiding secondary structures, primer-dimers, and runs of 4+ identical nucleotides
+- **PCR Primer Design**: Optimized primers for PCR assays using Primer3
+- **Multiple Sequence Alignment**: Built-in MAFFT integration
+- **Automatic Code Execution**: LLM-generated Python code is auto-executed with BioPython and Primer3
+- **Web UI**: FastAPI backend + React frontend with streaming chat
+- **CLI Tool**: Interactive chat mode and batch FASTA processing
 
 ## Requirements
 
-- Python 3.9+
-- OpenAI API key (GPT-4o model access required)
-- MAFFT installed on your system (for sequence alignment features)
+- Python 3.11+
+- Node.js 18+ (for frontend development)
+- MAFFT (optional, for sequence alignment)
 
 ## Installation
 
-1. Clone this repository:
 ```bash
-git clone https://github.com/proteinuniverse/epic-chatbot.git
-cd epic-chatbot
+git clone https://github.com/T-chm/EPIC.git
+cd EPIC
 ```
 
-2. Install the required dependencies:
+Install with your preferred provider(s):
+
 ```bash
-pip install -r requirements.txt
+# Ollama only (local models, no API key needed)
+pip install -e ".[ollama,cli]"
+
+# All providers
+pip install -e ".[all-providers,cli]"
+
+# Development
+pip install -e ".[all-providers,cli,dev]"
 ```
 
-3. Install MAFFT (if not already installed):
-   - **macOS**: `brew install mafft`
-   - **Ubuntu/Debian**: `sudo apt-get install mafft`
-   - **Windows**: Download from the [MAFFT website](https://mafft.cbrc.jp/alignment/software/)
+Install MAFFT (optional):
+- **macOS**: `brew install mafft`
+- **Ubuntu/Debian**: `sudo apt-get install mafft`
 
-4. Create a `.env` file with your OpenAI API key:
+## Configuration
+
+Copy the example environment file and configure:
+
+```bash
+cp .env.example .env
 ```
-OPENAI_API_KEY=your_api_key_here
+
+Key settings:
+```
+DEFAULT_PROVIDER=ollama          # openai | anthropic | ollama
+OLLAMA_HOST=http://localhost:11434
+OLLAMA_DEFAULT_MODEL=qwen3.5:4b
+OPENAI_API_KEY=sk-...           # if using OpenAI
+ANTHROPIC_API_KEY=sk-ant-...    # if using Anthropic
 ```
 
 ## Usage
 
-Run the EPIC chatbot:
+### CLI — Interactive Chat
+
 ```bash
-python epic_chat.py
+epic chat --provider ollama --model qwen3.5:4b
+epic chat --provider anthropic --model claude-sonnet-4-20250514
+epic chat --provider openai --model gpt-4o
 ```
 
-This will start a Gradio web interface accessible at http://localhost:7860.
+Interactive commands:
+- `/provider <name>` — switch provider
+- `/model <name>` — switch model
+- `/history` — show conversation
+- `/clear` — clear history
+- `!code <python>` — execute code directly
+- `/exit` — quit
 
-### Example Queries
+### CLI — Batch Processing
 
-The repository includes sample queries in the `data/sample_user_prompts.txt` file. Here are some examples:
+```bash
+epic batch sequences.fasta --provider ollama --pipeline qdb --output ./results
+epic batch sequences.fasta --pipeline pcr --output ./results
+epic batch sequences.fasta --pipeline full --output ./results
+```
 
-#### QDB Assay Queries
-- "Design QDB probes for detecting this sequence: [paste your sequence]"
-- "Analyze these variant sequences for conserved regions"
-- "How do I optimize my QDB assay for higher sensitivity?"
-- "Design a QDB assay for detecting HIV variants"
+### CLI — List Providers
 
-#### PCR Assay Queries
-- "Design PCR primers for amplifying this region: [paste your sequence]"
-- "Create primers for a 200bp amplicon from this sequence"
-- "What are the best primer design parameters for a multiplex PCR?"
-- "Optimize these primers for my SARS-CoV-2 detection assay"
+```bash
+epic providers
+```
 
-### Data Folder
+### Web UI
 
-The `data` folder contains:
-- Sample user prompts for reference in `sample_user_prompts.txt`
-- Reference materials for QDB assay design
-- Example sequences for testing and demonstration
+Start the API server:
 
-### Python Code Execution
+```bash
+epic serve --port 8000
+```
 
-You can execute Python code in two ways:
-1. Prefix your message with `!code` followed by your Python code
-2. EPIC will automatically execute any Python code blocks it generates in its responses
+For development with hot-reload frontend:
 
-## How It Works
+```bash
+# Terminal 1: API server
+epic serve
 
-EPIC leverages the OpenAI GPT-4o model with specialized training in molecular biology and nucleic acid diagnostics. The system includes:
+# Terminal 2: React dev server
+cd frontend
+npm install
+npm run dev
+```
 
-1. Specialized prompt engineering for both QDB and PCR assay design
-2. Integration with BioPython for sequence analysis and thermodynamic calculations
-3. MAFFT integration for multiple sequence alignment of variant sequences
-4. Interactive code execution for real-time testing and visualization
-5. Built-in primer design using primer3-py for optimized PCR primer generation
-6. Step-by-step assay optimization guidance based on best practices
+For production, build the frontend and it will be served by FastAPI:
+
+```bash
+cd frontend && npm run build
+epic serve
+```
+
+## API Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/health` | Health check |
+| `GET` | `/api/providers` | List available providers and models |
+| `POST` | `/api/sessions` | Create a chat session |
+| `GET` | `/api/sessions` | List sessions |
+| `DELETE` | `/api/sessions/{id}` | Delete a session |
+| `PATCH` | `/api/sessions/{id}/provider` | Switch provider mid-session |
+| `POST` | `/api/code/execute` | Execute Python code |
+| `WS` | `/ws/chat/{session_id}` | Streaming chat via WebSocket |
+
+## Assay Design
+
+### QDB Assay Design
+
+1. Target sequence analysis and verification
+2. Splitting into equal-length halves
+3. Generating reverse complements for capture and reporter probes
+4. Optimizing GC content (40-60%) and melting temperature (55-72°C)
+5. Adding chemical modifications (/5AmMC6/ and /3Cy5Sp/)
+
+### PCR Primer Design
+
+1. Amplicon region selection
+2. Primer length optimization (18-30 nucleotides)
+3. Melting temperature optimization (50-65°C, within 5°C between primers)
+4. GC content optimization (40-60%) with G/C at 3' end
+5. Avoiding secondary structures and primer-dimers
+
+## Project Structure
+
+```
+EPIC/
+├── epic/                  # Python package
+│   ├── config.py          # Settings (pydantic-settings)
+│   ├── models.py          # Data models
+│   ├── chat.py            # ChatEngine (shared core)
+│   ├── prompts.py         # System prompt
+│   ├── providers/         # LLM providers (OpenAI, Anthropic, Ollama)
+│   ├── tools/             # Interpreter, MAFFT
+│   ├── api/               # FastAPI backend
+│   └── cli/               # Typer CLI
+├── frontend/              # React + Vite + Tailwind
+├── tests/                 # Test suite
+├── scripts/               # Batch analysis scripts
+└── data/                  # Sample data
+```
 
 ## License
 
-This project is licensed under the Educational Community License Version 2.0 (ECL-2.0) - see the [LICENSE](LICENSE) file for details.
+Educational Community License Version 2.0 (ECL-2.0) — see [LICENSE](LICENSE).
 
 ## Acknowledgements
 
-- [Gradio](https://gradio.app/) for the web interface
-- [OpenAI](https://openai.com/) for the GPT-4o model
 - [BioPython](https://biopython.org/) for biological sequence analysis
-- [MAFFT](https://mafft.cbrc.jp/alignment/software/) for multiple sequence alignment
 - [Primer3-py](https://libnano.github.io/primer3-py/) for PCR primer design
+- [MAFFT](https://mafft.cbrc.jp/alignment/software/) for multiple sequence alignment
+- [FastAPI](https://fastapi.tiangolo.com/) for the web API
+- [Ollama](https://ollama.com/) for local model inference

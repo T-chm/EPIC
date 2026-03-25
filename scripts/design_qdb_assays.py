@@ -3,7 +3,7 @@ from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqUtils import MeltingTemp as mt
 from Bio.SeqUtils import gc_fraction
-from docker_chat import run_mafft
+from epic.tools.mafft import run_mafft
 
 def read_aligned_sequences(folder_path):
     sequences = {}

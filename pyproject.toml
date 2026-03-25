@@ -1,0 +1,47 @@
+[project]
+name = "epic-chatbot"
+version = "2.0.0"
+description = "EPIC: Engineering Probes via Instructing a Chatbot — AI-powered nucleic acid assay design"
+requires-python = ">=3.11"
+license = {text = "ECL-2.0"}
+readme = "README.md"
+dependencies = [
+    "pydantic>=2.0",
+    "pydantic-settings>=2.0",
+    "python-dotenv>=1.0",
+    "biopython>=1.81",
+    "primer3-py>=2.0",
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "websockets>=12.0",
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.30"]
+anthropic = ["anthropic>=0.40"]
+ollama = ["ollama>=0.4"]
+all-providers = [
+    "openai>=1.30",
+    "anthropic>=0.40",
+    "ollama>=0.4",
+]
+cli = [
+    "typer>=0.12",
+    "rich>=13.0",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "httpx>=0.27",
+    "pytest-mock>=3.12",
+]
+
+[project.scripts]
+epic = "epic.cli.main:app"
+
+[build-system]
+requires = ["setuptools>=68.0", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["epic*"]
