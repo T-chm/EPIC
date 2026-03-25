@@ -501,7 +501,7 @@ class TestChatEngineQDBDesign:
         followup_msg = engine.history[2]
         assert followup_msg.role == Role.USER
         assert "Code execution output" in followup_msg.content
-        assert "Interpret these results" in followup_msg.content
+        assert "brief interpretation" in followup_msg.content
 
         # The interpretation tokens should appear in events
         token_texts = [e.data for e in events if e.event_type == "token"]

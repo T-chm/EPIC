@@ -18,6 +18,14 @@ logger = logging.getLogger(__name__)
 # Regex to extract ```python ... ``` code blocks
 _CODE_BLOCK_RE = re.compile(r"```python\n(.*?)\n```", re.DOTALL)
 
+_INTERPRETATION_INSTRUCTION = (
+    "Above is the actual code execution output. Give a brief interpretation (3-5 sentences max):\n"
+    "- State whether the design passes or fails each criterion\n"
+    "- Flag specific values that are outside range\n"
+    "- If there are issues, suggest ONE concrete next step\n"
+    "Do NOT repeat the data in tables. Do NOT generate new code. Be concise."
+)
+
 # Sentinel to signal end of stream
 _DONE = object()
 
@@ -281,12 +289,7 @@ class ChatEngine:
 
             # Skip to Turn 2 for interpretation
             results_text = f"Code execution output:\n```\n{output}\n```"
-            followup = (
-                f"{results_text}\n\n"
-                "Above is the actual code execution output. "
-                "Interpret these results: evaluate whether the design meets the criteria, "
-                "flag any values outside acceptable ranges, and suggest next steps if needed."
-            )
+            followup = f"{results_text}\n\n{_INTERPRETATION_INSTRUCTION}"
             self._history.append(Message(role=Role.USER, content=followup))
 
             interpretation = ""
@@ -337,12 +340,7 @@ class ChatEngine:
             results_text = "\n\n".join(
                 f"Code execution output:\n```\n{out}\n```" for out in code_outputs
             )
-            followup = (
-                f"{results_text}\n\n"
-                "Above is the actual code execution output. "
-                "Interpret these results: evaluate whether the design meets the criteria, "
-                "flag any values outside acceptable ranges, and suggest next steps if needed."
-            )
+            followup = f"{results_text}\n\n{_INTERPRETATION_INSTRUCTION}"
             self._history.append(Message(role=Role.USER, content=followup))
 
             interpretation = ""
